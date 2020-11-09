@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>SCI Pneus - Curitiba - PR</title>
+    </head>
+    
+
+    <script>
+
+        function getImgSize(image) {
+            const newImg = new Image();
+            return new Promise((res, rej) => {
+            newImg.onload = function() {
+            const height = newImg.height;
+            const width = newImg.width;
+            res({
+                width: newImg.width,
+                height: newImg.height
+            });
+            }
+            newImg.src = image.src;
+            });
+        }
+        
+        var url = window.location.pathname;
+        var filename = url.substring(url.lastIndexOf('/')+1);
+        filename = filename.split(".");
+
+        var img = filename+".jpg";
+
+        var imageRender = '<img id="image" src="./images/[IMG].jpg" alt="" style="display: none;">';
+        imageRender = imageRender.replace("[IMG]", filename[0]);
+        document.write(imageRender);
+
+
+        var tag = '<body id="content" style="background: url(./images/[IMG].jpg) no-repeat center top; height: [HEIGHTIMG]; padding: 0; margin: 0;"></body>'
+
+        const heightImg = document.getElementById("image");
+        //getImgSize(heightImg).then(size => console.log(size['height']));
+
+        getImgSize(heightImg).then(size => localStorage.setItem('imgHeight', size['height']));
+        
+        var imageHeight = localStorage.getItem("imgHeight");
+
+        var content = tag.replace("[IMG]", filename[0]);
+        content = content.replace("[IMG]", filename[0]);
+        content = content.replace("[HEIGHTIMG]", imageHeight);
+
+        document.write(content);
+
+        setInterval(clearStorage, 200);
+
+        function clearStorage(){
+            localStorage.clear();
+        }
+       
+        
+    </script>
+</html>
